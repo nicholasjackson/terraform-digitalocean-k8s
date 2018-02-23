@@ -1,0 +1,16 @@
+{
+  "builders": [
+  {
+    "type": "digitalocean",
+    "image": "ubuntu-14-04-x64",
+    "region": "lon1",
+    "size": "512mb",
+    "ssh_username": "root"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./install_k8s.sh"
+    }
+  ]
+}
