@@ -1,18 +1,23 @@
 # Configure the DigitalOcean Provider
 provider "digitalocean" {}
 
+resource "digitalocean_ssh_key" "default" {
+  name       = "K8s Cluster"
+  public_key = "${file("${var.ssh_public_key}")}"
+}
+
 # Create a new Web Droplet in the nyc2 region
-resource "digitalocean_droplet" "web" {
+resource "digitalocean_droplet" "k8s" {
   count = 1
 
-  image  = "32050692"
-  name   = "web-1"
+  image  = "${var.image_id}"
+  name   = "k8s-1"
   region = "lon1"
-  size   = "512mb"
+  size   = "4gb"
 
-  ssh_keys = ["89:15:fd:02:04:44:73:a9:f7:fc:08:03:d0:ab:22:d4"]
+  ssh_keys = ["${digitalocean_ssh_key.default.fingerprint}"]
 }
 
 output "web_ip" {
-  value = "${digitalocean_droplet.web.ipv4_address}"
+  value = "${digitalocean_droplet.k8s.ipv4_address}"
 }
