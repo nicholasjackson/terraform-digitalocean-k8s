@@ -49,9 +49,34 @@ mkdir -p $HOME/.kube
 scp root@$(terraform output web_ip):/etc/kubernetes/admin.conf $HOME/.kube/do-k8s
 ```
 
+## Change server in kubectl config
+Inside the kube config the server address will be set to the local ip for the node in order to access it we need to add a local hosts entry for the domain `kubernetes` and then
+update kube config
+
+
+Append the following to /etc/hosts
+```
+127.0.0.1  kubernetes
+```
+
+Update kube config
+```
+KUBECONFIG=$HOME/.kube/do-k8s kubectl config set-cluster kubernetes --server=https://kubernetes:6443
+```
+
 ## SSH Tunnel to new machine
 We can create an ssh tunnel to our newly created droplet using the following command this will allow us to access the `kubectl` locally
 
 ```
-ssh -f root@$(terraform output web_ip) -L 6443:$(terraform output web_ip):6443 -N
+$ ssh -f root@$(terraform output web_ip) -L 6443:$(terraform output web_ip):6443 -N
+$ KUBECONFIG=$HOME/.kube/do-k8s kubectl get nodes
+NAME      STATUS     ROLES     AGE       VERSION
+k8s-1     NotReady   master    51s       v1.9.3
 ```
+
+## Next time
+* Why we can not run init as part of the image
+* Init adding kubernetes to /etc/hosts
+* Update kube config `kubectl config set-cluster kubernetes --server=https://kubernetes:6443`
+* Add networking
+* Bind to local ip networking

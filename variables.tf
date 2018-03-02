@@ -5,5 +5,5 @@ variable "ssh_public_key" {
 
 variable "image_id" {
   description = "Digital Ocean Image ID"
-  default     = "32247219"
+  default     = "32247739"
 }
