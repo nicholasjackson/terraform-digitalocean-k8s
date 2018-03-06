@@ -21,3 +21,6 @@ deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
 apt-get install -y kubelet kubeadm kubectl
+
+echo "Set IPTables config for Weave networking"
+sysctl net.bridge.bridge-nf-call-iptables=1
