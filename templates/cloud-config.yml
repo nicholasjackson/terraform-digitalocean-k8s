@@ -1,0 +1,5 @@
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+token: ${join_token}
+api:
+  advertiseAddress: ${api_server_advertise}

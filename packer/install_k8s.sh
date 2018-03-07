@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Install Digital Ocean Monitoring"
+curl -sSL https://agent.digitalocean.com/install.sh | sh
+
 echo "Install Docker"
 apt-get update
 apt-get install -y \
@@ -20,7 +23,7 @@ cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
-apt-get install -y kubelet kubeadm kubectl
+apt-get install -y kubernetes-cni=0.5.1-00 kubelet=1.8.8-00 kubeadm=1.8.8-00 kubectl=1.8.8-00
 
 echo "Set IPTables config for Weave networking"
 sysctl net.bridge.bridge-nf-call-iptables=1
