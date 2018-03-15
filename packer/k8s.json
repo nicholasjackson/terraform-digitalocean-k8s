@@ -1,16 +1,26 @@
 {
+  "variables": {
+    "k8s_version": "1.8.8-00",
+    "cni_version": "0.5.1-00",
+    "image": "ubuntu-16-04-x64",
+    "docker_version":"17.12.1~ce-0~ubuntu"
+  },
   "builders": [
   {
     "type": "digitalocean",
-    "image": "ubuntu-16-04-x64",
+    "image": "{{user `image`}}",
     "region": "lon1",
     "size": "4gb",
-    "ssh_username": "root"
+    "ssh_username": "root",
+    "snapshot_name":"k8s-{{user `k8s_version`}}-{{user `image`}}"
   }],
   "provisioners": [
     {
-      "type": "shell",
-      "script": "./install_k8s.sh"
+      "type": "ansible",
+      "playbook_file": "../ansible_playbook/k8s_prepare.yml",
+      "extra_arguments": [
+        "--extra-vars", "cni_version={{user `cni_version`}} k8s_version={{user `k8s_version`}} docker_version={{user `docker_version`}}"
+      ]
     }
   ]
 }

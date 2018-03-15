@@ -1,7 +1,8 @@
 # Building a K8s cluster with Terraform and Packer on Digital Ocean
 
 ## Step 1
-Install HashiCorp Packer and Terraform
+Install HashiCorp Packer and Terraform: https://releases.hashicorp.com
+
 
 ## Configure your Digital Ocean API key environment variables
 
@@ -11,6 +12,7 @@ export DIGITALOCEAN_API_TOKEN=xxxxx
 ```
 
 ## Build a K8s base image in Digital Ocean
+Before provisioning the infrastructure we need to build a base image which has Kubernetes and Docker installed.  We will use Packer for this:
 
 ```bash
 $ cd packer
@@ -41,6 +43,8 @@ Outputs:
 
 web_ip = 159.65.50.173
 ```
+
+## Deploy a simple service to K8s with Digital Ocean load balancer
 
 ## Download the Kubernettes config
 

@@ -1,0 +1,95 @@
+---
+- name: Install Kubernetes
+  hosts: all
+  gather_facts: false
+  remote_user: root
+
+  pre_tasks:
+  - name: Install python2 for Ansible
+    raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
+    register: output
+    changed_when: output.stdout != ""
+  - name: Gathering Facts
+    setup:
+
+  tasks:
+  - name: update apt
+    apt:
+      update_cache: yes
+  - name: Update all packages to the latest version
+    apt:
+      upgrade: dist
+  - name: Install the package "apt-transport-https"
+    apt:
+      name: apt-transport-https
+  - name: Install the package "ca-certificates"
+    apt:
+      name: ca-certificates
+  - name: Install the package "curl"
+    apt:
+      name: curl
+  - name: Install the package "software-properties-common"
+    apt:
+      name: software-properties-common
+ 
+  # Add ap repositories for Docker and Kubernetes
+  - name: Add an apt key for Docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: Add an apt key for K8s
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+  
+  - apt_repository:
+      repo: deb https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable 
+      filename: /etc/apt/sources.list.d/docker
+      state: present
+  - apt_repository:
+      repo: deb https://apt.kubernetes.io/ kubernetes-{{ ansible_distribution_release }} main
+      filename: /etc/apt/sources.list.d/kubernetes
+      state: present
+  - name: update apt
+    apt:
+      update_cache: yes
+
+  # Install Docker
+  - name: Install Docker
+    apt: 
+      name: docker-ce={{ docker_version }}
+
+  # Install Kubernetes
+  - name: Install K8s CNI
+    apt: 
+      name: kubernetes-cni={{ cni_version }}
+  - name: Install K8s Kubelet
+    apt: 
+      name: kubelet={{ k8s_version }}
+  - name: Install K8s Kube Admin
+    apt: 
+      name: kubeadm={{ k8s_version }}
+  - name: Install K8s Kube Control
+    apt: 
+      name: kubectl={{ k8s_version }}
+      force: yes
+  - name: Update kublet systemd to enable external cloud providers
+    replace:
+      path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+      regexp: '(ExecStart=.*)'
+      after: ExecStart=
+      replace: '\1 --cloud-provider=external'
+      backup: yes
+  - name: Set IP Tables config for Weave Networking
+    sysctl:
+      name: net.bridge.bridge-nf-call-iptables 
+      value: 1
+      state: present
+ 
+  # Cleanup
+  - name: Remove useless packages from the cache
+    apt:
+      autoclean: yes
+  - name: Remove dependencies that are no longer required
+    apt:
+      autoremove: yes 

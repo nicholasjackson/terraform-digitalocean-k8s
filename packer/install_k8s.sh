@@ -15,7 +15,7 @@ add-apt-repository \
    "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
    $(lsb_release -cs) \
    stable"
-apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep ${docker_version} | head -1 | awk '{print $3}')
 
 echo "Install K8s"
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
@@ -23,7 +23,7 @@ cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
-apt-get install -y kubernetes-cni=0.5.1-00 kubelet=1.8.8-00 kubeadm=1.8.8-00 kubectl=1.8.8-00
+apt-get install -y kubernetes-cni=${cni_version}-00 kubelet=${k8s_version}-00 kubeadm=${k8s_version}-00 kubectl=${k8s_version}-00
 
 echo "Set IPTables config for Weave networking"
 sysctl net.bridge.bridge-nf-call-iptables=1
