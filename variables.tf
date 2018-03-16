@@ -1,11 +1,24 @@
+variable "namespace" {
+  description = "Namespace for the application"
+  default     = "k8s_cluster"
+}
+
+variable "region" {
+  description = "Digital Ocean region in which to create the cluster"
+  default     = "lon1"
+}
+
+variable "size" {
+  description = "Digital Ocean droplet size, default is 2core with 4gb of ram"
+  default     = "4gb"
+}
+
 variable "ssh_public_key" {
   description = "SSH public key to add to droplets"
-  default     = "~/.ssh/server_rsa.pub"
 }
 
 variable "ssh_private_key" {
   description = "SSH public key to add to droplets"
-  default     = "~/.ssh/server_rsa"
 }
 
 variable "image_name" {
@@ -14,7 +27,6 @@ variable "image_name" {
 
 variable "k8s_token" {
   description = "K8s token to use for joining clusters, this should be generated uniquely for each cluster"
-  default     = "b5aa6e.c74e8c9996726092"
 }
 
 variable "k8s_version" {

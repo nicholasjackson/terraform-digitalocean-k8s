@@ -3,8 +3,8 @@ resource "digitalocean_droplet" "k8s_worker" {
 
   image              = "${data.digitalocean_image.k8s.image}"
   name               = "k8s-worker-${count.index}"
-  region             = "lon1"
-  size               = "4gb"
+  region             = "${var.region}"
+  size               = "${var.size}"
   private_networking = true
 
   ssh_keys = ["${digitalocean_ssh_key.default.fingerprint}"]
@@ -13,8 +13,9 @@ resource "digitalocean_droplet" "k8s_worker" {
 resource null_resource "k8s_worker" {
   count = "${var.k8s_workers}"
 
+  # Wait for the workers to come up and for the master to finish provisioning
   triggers {
-    cluster_ids = "${join(",", digitalocean_droplet.k8s_worker.*.ipv4_address_private)}"
+    cluster_ids = "${join(",", digitalocean_droplet.k8s_worker.*.ipv4_address_private)},${null_resource.k8s_master.id}"
   }
 
   provisioner "file" {
@@ -47,7 +48,7 @@ resource null_resource "k8s_worker" {
 data "template_file" "k8s_config_worker" {
   count = "${var.k8s_workers}"
 
-  template = "${file("./templates/k8s-join.sh")}"
+  template = "${file("${path.module}/templates/k8s-join.sh")}"
 
   vars {
     token     = "${var.k8s_token}"

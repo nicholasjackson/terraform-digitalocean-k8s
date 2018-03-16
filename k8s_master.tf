@@ -4,8 +4,8 @@ resource "digitalocean_droplet" "k8s_master" {
 
   image              = "${data.digitalocean_image.k8s.image}"
   name               = "k8s-master-${count.index}"
-  region             = "lon1"
-  size               = "4gb"
+  region             = "${var.region}"
+  size               = "${var.size}"
   private_networking = true
 
   ssh_keys = ["${digitalocean_ssh_key.default.fingerprint}"]
@@ -52,7 +52,7 @@ resource "null_resource" "k8s_master" {
       private_key = "${file("${var.ssh_private_key}")}"
     }
 
-    content     = "${file("./templates/k8s-init.sh")}"
+    content     = "${data.template_file.k8s_init.rendered}"
     destination = "/tmp/init.sh"
   }
 
@@ -73,7 +73,7 @@ resource "null_resource" "k8s_master" {
 
 # Add the digital ocean API key to the cloud deployment manager provisioning script
 data "template_file" "cloud_deployment_manager" {
-  template = "${file("./templates/cloud-deployment-manager.yml")}"
+  template = "${file("${path.module}/templates/cloud-deployment-manager.yml")}"
 
   vars {
     digitalocean_api_token = "${var.digitalocean_api_token}"
@@ -82,8 +82,16 @@ data "template_file" "cloud_deployment_manager" {
 
 # The init script needs to be modified to add the dynamic elements such as the kubernettes version
 # and the ip address to advertise the API to
+data "template_file" "k8s_init" {
+  template = "${file("${path.module}/templates/k8s-init.sh")}"
+
+  vars {
+    node_ip = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
+  }
+}
+
 data "template_file" "k8s_config" {
-  template = "${file("./templates/k8s-config.yml")}"
+  template = "${file("${path.module}/templates/k8s-config.yml")}"
 
   vars {
     version           = "${var.k8s_version}"
