@@ -74,11 +74,10 @@
       name: kubectl={{ k8s_version }}
       force: yes
   - name: Update kublet systemd to enable external cloud providers
-    replace:
+    lineinfile:
       path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-      regexp: '(ExecStart=.*)'
-      after: ExecStart=
-      replace: '\1 --cloud-provider=external'
+      insertbefore: 'ExecStart=$'
+      line: 'Environment="KUBELET_EXTRA_ARGS=--cloud-provider=external"'
       backup: yes
   - name: Set IP Tables config for Weave Networking
     sysctl:

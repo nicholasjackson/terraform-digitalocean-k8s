@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo kubeadm init --kubernetes-version=${version} --token=${token} --apiserver-advertise-address=${advertise_address}
+sudo kubeadm init --config=/tmp/kube-config.yml
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # Install Weave networking plugin

@@ -1,0 +1,8 @@
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+kubernetesVersion: ${version}
+api:
+  advertiseAddress: ${advertise_address}:6443
+token: ${token}
+apiServerExtraArgs:
+  kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname
