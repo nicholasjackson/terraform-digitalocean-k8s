@@ -16,19 +16,19 @@ resource "digitalocean_firewall" "k8s" {
       protocol   = "tcp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0"]
+      source_addresses = ["0.0.0.0/0", "::/0"]
     },
     {
       protocol   = "udp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0"]
+      source_addresses = ["0.0.0.0/0", "::/0"]
     },
     {
       protocol   = "icmp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0"]
+      source_addresses = ["0.0.0.0/0", "::/0"]
     },
     {
       # Allow SSH access from all hosts

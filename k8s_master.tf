@@ -86,7 +86,9 @@ data "template_file" "k8s_init" {
   template = "${file("${path.module}/templates/k8s-init.sh")}"
 
   vars {
+    version = "${var.k8s_version}"
     node_ip = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
+    token   = "${var.k8s_token}"
   }
 }
 

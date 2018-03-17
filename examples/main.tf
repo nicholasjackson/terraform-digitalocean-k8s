@@ -8,6 +8,7 @@ module "k8s_cluster" {
 
   image_name = "k8s-1.8.8-00-ubuntu-16-04-x64"
 
+  k8s_version = "v1.8.8"
   k8s_token   = "b5aa6e.c74e8c9996726092"
   k8s_workers = 2
 

@@ -5,5 +5,3 @@ api:
   advertiseAddress: ${advertise_address}
   bindPort: 6443
 token: ${token}
-apiServerExtraArgs:
-  kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname

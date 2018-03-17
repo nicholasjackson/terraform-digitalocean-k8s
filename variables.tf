@@ -31,7 +31,7 @@ variable "k8s_token" {
 
 variable "k8s_version" {
   description = "Kubernetes version"
-  default     = "v1.8.8"
+  default     = "v1.9.4"
 }
 
 variable "k8s_workers" {
