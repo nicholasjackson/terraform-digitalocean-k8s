@@ -13,7 +13,7 @@ function tunnel_k8s_api {
   fi
 
   echo ""
-  echo "Started SSH tunnel to K8s master, the API is now available at https://kubernetes:6443"
+  echo "Started SSH tunnel to K8s master, the API is now available at https://localhost:6443"
 }
 
 function tunnel_k8s_stop {
@@ -32,7 +32,7 @@ function tunnel_k8s_stop {
 function get_k8s_config {
   mkdir -p $HOME/.kube 
   scp -i $(terraform output k8s_private_key) root@$(terraform output k8s_master_public_ip):/etc/kubernetes/admin.conf $HOME/.kube/do-k8s
-  KUBECONFIG=$HOME/.kube/do-k8s kubectl config set-cluster kubernetes --server=https://kubernetes:6443
+  KUBECONFIG=$HOME/.kube/do-k8s kubectl config set-cluster kubernetes --server=https://localhost:6443
 
   echo ""
   echo "Kubernetes config downloaded and stored at $HOME/.kube/do-k8s"

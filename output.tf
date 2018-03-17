@@ -21,3 +21,7 @@ output "private_key" {
 output "public_key" {
   value = "${var.ssh_public_key}"
 }
+
+output "join_token" {
+  value = "${local.join_token}"
+}

@@ -88,7 +88,7 @@ data "template_file" "k8s_init" {
   vars {
     version = "${var.k8s_version}"
     node_ip = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
-    token   = "${var.k8s_token}"
+    token   = "${local.join_token}"
   }
 }
 
@@ -96,8 +96,10 @@ data "template_file" "k8s_config" {
   template = "${file("${path.module}/templates/k8s-config.yml")}"
 
   vars {
-    version           = "${var.k8s_version}"
-    token             = "${var.k8s_token}"
-    advertise_address = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
+    host      = "${digitalocean_droplet.k8s_master.name}"
+    public_ip = "${digitalocean_droplet.k8s_master.ipv4_address}"
+    node_ip   = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
+    version   = "${var.k8s_version}"
+    token     = "${local.join_token}"
   }
 }

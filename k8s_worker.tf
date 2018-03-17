@@ -51,7 +51,7 @@ data "template_file" "k8s_config_worker" {
   template = "${file("${path.module}/templates/k8s-join.sh")}"
 
   vars {
-    token     = "${var.k8s_token}"
+    token     = "${local.join_token}"
     node_ip   = "${element(digitalocean_droplet.k8s_worker.*.ipv4_address_private, count.index)}"
     master_ip = "${digitalocean_droplet.k8s_master.ipv4_address_private}"
   }

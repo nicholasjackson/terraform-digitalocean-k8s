@@ -26,7 +26,8 @@ variable "image_name" {
 }
 
 variable "k8s_token" {
-  description = "K8s token to use for joining clusters, this should be generated uniquely for each cluster"
+  description = "K8s token to use for joining clusters, this should be generated uniquely for each cluster, if this is not provided, Terraform will generate a token automatically"
+  default     = ""
 }
 
 variable "k8s_version" {
