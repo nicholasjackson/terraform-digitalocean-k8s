@@ -8,10 +8,4 @@ token: ${token}
 apiServerExtraArgs:
   kubelet-preferred-address-types: InternalIP,ExternalIP,Hostname
 apiServerCertSANs:
-  - ${host}
-  - kubernetes
-  - kubernetes.default 
-  - kubernetes.default.svc.cluster.local
   - localhost
-  - ${node_ip}
-  - ${public_ip}

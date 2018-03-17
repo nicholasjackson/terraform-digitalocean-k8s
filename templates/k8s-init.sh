@@ -5,12 +5,12 @@ sed -i \
 systemctl daemon-reload
 systemctl restart kubelet.service
 
-#kubeadm init --config=/tmp/kube-config.yml
-kubeadm init \
-  --token=${token} \
-  --apiserver-advertise-address=${node_ip}:6443 \
-  --kubernetes-version=${version} \
-  --apiserver-cert-extra-sans=localhost
+kubeadm init --config=/tmp/kube-config.yml
+#kubeadm init \
+#  --token=${token} \
+#  --apiserver-advertise-address=${node_ip}:6443 \
+#  --kubernetes-version=${version} \
+#  --apiserver-cert-extra-sans=localhost
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
 # Install Kubernetes networking

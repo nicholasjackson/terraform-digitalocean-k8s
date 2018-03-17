@@ -1,7 +1,9 @@
 /*
       source_addresses = [
         "${digitalocean_droplet.k8s_worker.*.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address}",
         "${digitalocean_droplet.k8s_master.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_master.ipv4_address}",
       ]
 */
 
@@ -16,19 +18,34 @@ resource "digitalocean_firewall" "k8s" {
       protocol   = "tcp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0", "::/0"]
+      source_addresses = [
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address}",
+        "${digitalocean_droplet.k8s_master.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_master.ipv4_address}",
+      ]
     },
     {
       protocol   = "udp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0", "::/0"]
+      source_addresses = [
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address}",
+        "${digitalocean_droplet.k8s_master.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_master.ipv4_address}",
+      ]
     },
     {
       protocol   = "icmp"
       port_range = "1-65535"
 
-      source_addresses = ["0.0.0.0/0", "::/0"]
+      source_addresses = [
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_worker.*.ipv4_address}",
+        "${digitalocean_droplet.k8s_master.ipv4_address_private}",
+        "${digitalocean_droplet.k8s_master.ipv4_address}",
+      ]
     },
     {
       # Allow SSH access from all hosts
