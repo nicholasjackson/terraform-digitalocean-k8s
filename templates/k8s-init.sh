@@ -1,6 +1,6 @@
 #!/bin/bash
 sed -i \
-  's#\(Environment="KUBELET_EXTRA_ARGS=.*\)\("$\)#\1 --node-ip=${node_ip}\2#' \
+  's#\(Environment="KUBELET_EXTRA_ARGS=.*\)\("$\)#\1--node-ip=${node_ip}\2#' \
   /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 systemctl daemon-reload
 systemctl restart kubelet.service
