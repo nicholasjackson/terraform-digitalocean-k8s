@@ -1,5 +1,5 @@
 module "k8s_cluster" {
-  source = "../"
+  source = "nicholasjackson/k8s/digitalocean"
 
   namespace = "my_k8s_cluster"
 

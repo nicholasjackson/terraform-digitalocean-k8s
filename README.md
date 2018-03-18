@@ -21,7 +21,7 @@ To create a Kubernetes cluster create the base image with Packer as shown in the
 
 ```hcl
 module "k8s_cluster" {
-  source = "nicholasjackson/terraform-digitalocean-k8s"
+  source = "nicholasjackson/k8s/digitalocean"
 
   namespace = "my_k8s_cluster"
 
