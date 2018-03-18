@@ -1,4 +1,7 @@
 # Kubernetes cluster on Digital Ocean
+
+[![Open Source Helpers](https://www.codetriage.com/nicholasjackson/terraform-digitalocean-k8s/badges/users.svg)](https://www.codetriage.com/nicholasjackson/terraform-digitalocean-k8s)
+
 Terraform module which creates a basic Kubernetes cluster on DigitalOcean
 
 Supports:
@@ -16,7 +19,7 @@ This module creates a simple Kubernetes cluster on DigitalOcean with the followi
 * Packer build with base software
 
 ## Usage:
-To create a Kubernetes cluster create the base image with Packer as shown in the [example cluster](./examples/README.md)
+To create a Kubernetes cluster create the base image with Packer as shown in the [example cluster](https://github.com/nicholasjackson/terraform-digitalocean-k8s/tree/master/examples)
 , then add the following module to your Terraform config replacing the values for the inputs as required.
 
 ```hcl
@@ -73,4 +76,4 @@ The module defines the following outputs:
 ## Example
 For more detailed example on useage, including instructions on creating a base image with Packer, and how to access the cluster using `kubectl` please see the README in the examples folder.
 
-[example cluster](./examples/README.md)
+[example cluster](https://github.com/nicholasjackson/terraform-digitalocean-k8s/tree/master/examples)
