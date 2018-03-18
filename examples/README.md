@@ -17,7 +17,7 @@ Before provisioning the infrastructure we need to build a base image which has K
 
 ```bash
 $ cd packer
-$ packer build k8s.json
+$ packer build k8s-1.9.4.json
 #...
 ==> digitalocean: Waiting for snapshot to complete...
 ==> digitalocean: Destroying droplet...
@@ -25,7 +25,7 @@ $ packer build k8s.json
 Build 'digitalocean' finished.
 
 ==> Builds finished. The artifacts of successful builds are:
---> digitalocean: A snapshot was created: 'k8s-1.8.8-00-ubuntu-16-04-x64' (ID: 32247219) in regions ''
+--> digitalocean: A snapshot was created: 'k8s-1.9.4-00-ubuntu-16-04-x64' (ID: 32247219) in regions ''
 ```
 
 ## Provision resources in Digital Ocean based on our built image
@@ -41,9 +41,9 @@ module "k8s_cluster" {
   ssh_public_key  = "path to your ssh public key"
   ssh_private_key = "path to your ssh private key"
 
-  image_name = "name of your image built with packer"
+  image_name = "name of your image built with packer e.g. k8s-1.9.4-00-ubuntu-16-04-x64 "
 
-  k8s_token   = "b5aa6e.c74e8c9996726092"
+  k8s_version = "v1.9.4"
   k8s_workers = 2
 
   digitalocean_api_token = "${var.digitalocean_api_token}"
@@ -89,7 +89,7 @@ workspace = prod
 ## Download the Kubernettes config
 
 ```bash
-$ ./k8s_config.sh get-config
+$ source ./k8s_config.sh get-config
 The authenticity of host '167.99.83.49 (167.99.83.49)' can't be established.
 ECDSA key fingerprint is SHA256:eR+u/fSMzYwXrOETrYp27kCAdeNvAwZhjbF7kHT1IeY.
 Are you sure you want to continue connecting (yes/no)? yes
@@ -100,23 +100,13 @@ Cluster "kubernetes" set.
 Kubernetes config downloaded and stored at /Users/nicj/.kube/do-k8s
 ```
 
-## Add entry to etc hosts
-To use an ssh tunnel with your K8s config you need to add the following entry to etc/hosts, this is because the SAN for the 
-kubernetes TLS certificates does not contain `localhost`
-
-Append the following to /etc/hosts
-
-```bash
-127.0.0.1  kubernetes
-```
-
 ## SSH Tunnel to the k8s master
 We can create an ssh tunnel to our newly created droplet using the following command this will allow us to use `kubectl` locally
 
 ```bash
 $ ./k8s_config.sh tunnel
 
-Started SSH tunnel to K8s master, the API is now available at https://kubernetes:6443
+Started SSH tunnel to K8s master, the API is now available at https://localhost:6443
 ```
 
 ## Test kubectl has been set up correctly
