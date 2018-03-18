@@ -6,9 +6,9 @@ module "k8s_cluster" {
   ssh_public_key  = "~/.ssh/server_rsa.pub"
   ssh_private_key = "~/.ssh/server_rsa"
 
-  image_name = "k8s-1.8.8-00-ubuntu-16-04-x64"
+  image_name = "k8s-1.9.4-00-ubuntu-16-04-x64"
 
-  k8s_version = "v1.8.8"
+  k8s_version = "v1.9.4"
   k8s_workers = 2
 
   digitalocean_api_token = "${var.digitalocean_api_token}"
