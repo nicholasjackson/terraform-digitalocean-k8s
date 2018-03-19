@@ -51,7 +51,7 @@ The module defines the following inputs:
 | ---- | ----------- |
 | namespace | The namespace for the application |
 | region | DigitalOcean region in which to create the cluster |
-| size | DigitalOcean droplet size |
+| size | DigitalOcean droplet size, details of available droplets can be found in the docs https://developers.digitalocean.com/documentation/v2/#sizes |
 | ssh_public_key | Path to the SSH public key to add to the nodes |
 | ssh_private_key | Path of the SSH private key used for provisioning |
 | image_name | Digital ocean snapshot used as a base image |

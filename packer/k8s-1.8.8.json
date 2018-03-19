@@ -10,7 +10,7 @@
     "type": "digitalocean",
     "image": "{{user `image`}}",
     "region": "lon1",
-    "size": "4gb",
+    "size": "512mb",
     "ssh_username": "root",
     "snapshot_name":"k8s-{{user `k8s_version`}}-{{user `image`}}"
   }],

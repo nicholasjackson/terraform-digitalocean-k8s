@@ -42,9 +42,11 @@ module "k8s_cluster" {
   ssh_private_key = "path to your ssh private key"
 
   image_name = "name of your image built with packer e.g. k8s-1.9.4-00-ubuntu-16-04-x64 "
+	size       = "s-2vcpu-2gb"
 
   k8s_version = "v1.9.4"
   k8s_workers = 2
+
 
   digitalocean_api_token = "${var.digitalocean_api_token}"
 }

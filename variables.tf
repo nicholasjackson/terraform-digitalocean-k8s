@@ -9,8 +9,8 @@ variable "region" {
 }
 
 variable "size" {
-  description = "Digital Ocean droplet size, default is 2core with 4gb of ram"
-  default     = "4gb"
+  description = "Digital Ocean droplet size, default is 2core with 2gb of ram, $15 per month per droplet"
+  default     = "s-2vcpu-2gb"
 }
 
 variable "ssh_public_key" {
