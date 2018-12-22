@@ -14,11 +14,11 @@ variable "size" {
 }
 
 variable "ssh_public_key" {
-  description = "SSH public key to add to droplets"
+  description = "path of SSH public key to add to droplets"
 }
 
 variable "ssh_private_key" {
-  description = "SSH public key to add to droplets"
+  description = "path of SSH private key"
 }
 
 variable "image_name" {
